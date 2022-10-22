@@ -1,20 +1,24 @@
 import time
 import requests
-import constants
+import exercise_1_constants as con
 import matplotlib.pyplot as plt
 
-api_key = constants.API_KEY_OPENWEATHER
+api_key = con.API_KEY_OPENWEATHER
 
 
-def get_weather_data(lat, lon, units="metric"):
-    url = "https://api.openweathermap.org/data/2.5/weather?lat=" + str(lat) + "&lon=" + str(
-        lon) + "&appid=" + api_key + "&units=" + units
-    response = requests.request("GET", url)
+def make_api_call(operation, url, params):
+    response = requests.request(operation, url, params=params)
     return response.json()
 
 
-def calculate_fahrenheit(input_json):
-    temp_c = float(input_json["main"]["temp"])
+def get_weather_data(lat, lon, units="metric"):
+    params = {"lon": lon, "lat": lat, "appid": api_key, "units": units}
+    url = "https://api.openweathermap.org/data/2.5/weather"
+    response_json = make_api_call("GET", url, params)
+    return response_json
+
+
+def calculate_fahrenheit(temp_c):
     temp_f = (temp_c * 1.8) + 32
     return temp_f
 
@@ -64,25 +68,42 @@ class City:
         return "Name: " + self.name + " Lat: " + self.lat + " Lon: " + self.lon
 
 
+def get_city_coordinates(locations):
+    city_coordinates = []
+    url = "http://api.openweathermap.org/geo/1.0/direct"
+
+    for country, city in locations.items():
+        params = {"q": city + "," + country, "limit": 1, "appid": api_key}
+        response_json = make_api_call("GET", url, params)
+        city_coordinates.append(City(city, response_json[0]["lat"], response_json[0]["lon"]))
+    return city_coordinates
+
+
+def get_city_temp_c(city_coordinates):
+    city_temp_c = {}
+    url = "https://api.openweathermap.org/data/2.5/weather"
+
+    for city in city_coordinates:
+        params = {"lat": city.lat, "lon": city.lon, "appid": api_key, "units": "metric"}
+        response_json = make_api_call("GET", url, params)
+        city_temp_c[city.name] = response_json["main"]["temp"]
+    return city_temp_c
+
+
+def convert_city_temp(city_temp_c):
+    city_temp_f = {}
+
+    for city, celsius in city_temp_c.items():
+        city_temp_f[city] = calculate_fahrenheit(celsius)
+    return city_temp_f
+
+
 def get_plot():
     locations = {"PL": "Warsaw", "HU": "Budapest", "CZ": "Prague", "AT": "Wien"}
 
-    city_locations = []
-    city_temp_c = {}
-    city_temp_f = {}
-
-    for country, city in locations.items():
-        url = "http://api.openweathermap.org/geo/1.0/direct?q=" + city + "," + country + "&limit=1&appid=" + api_key
-        response = requests.request("GET", url)
-        response_json = response.json()
-        city_locations.append(City(city, response_json[0]["lat"], response_json[0]["lon"]))
-
-    for city in city_locations:
-        url = "https://api.openweathermap.org/data/2.5/weather?lat=" + city.lat + "&lon=" + city.lon + "&appid=" + api_key + "&units=metric"
-        response = requests.request("GET", url)
-        response_json = response.json()
-        city_temp_c[city.name] = response_json["main"]["temp"]
-        city_temp_f[city.name] = (response_json["main"]["temp"] * 1.8) + 32
+    city_coordinates = get_city_coordinates(locations)
+    city_temp_c = get_city_temp_c(city_coordinates)
+    city_temp_f = convert_city_temp(city_temp_c)
 
     fig = plt.figure()
     fig.set_figheight(5)
