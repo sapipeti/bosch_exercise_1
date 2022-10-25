@@ -67,6 +67,9 @@ class City:
     def __str__(self):
         return "Name: " + self.name + " Lat: " + self.lat + " Lon: " + self.lon
 
+    def __eq__(self, other):
+        return self.name == other.name and self.lat == other.lat and self.lon == other.lon
+
 
 def get_city_coordinates(locations):
     city_coordinates = []
