@@ -1,3 +1,5 @@
+import time
+
 from fastapi import FastAPI
 import exercise_1_func as func
 from starlette.responses import FileResponse
@@ -46,7 +48,7 @@ def get_mood(lat, lon):
 @app.get("/weather/plot/")
 def get_plot():
     func.get_plot()
-    return FileResponse(path="report.png", filename="report.png", media_type='text/png')
+    return FileResponse(path="report.png", filename="report"+time.strftime("%Y%m%d-%H%M%S")+".png", media_type='text/png')
 
 
 @app.get('/city_lat_lon/')

@@ -119,4 +119,4 @@ def get_plot():
     plt.subplot(122)
     plt.bar(list(city_temp_f.keys()), list(city_temp_f.values()))
     plt.ylabel('Temperature (°F)')
-    plt.savefig("report.png")
+    plt.savefig("report"+time.strftime("%Y%m%d-%H%M%S")+".png")

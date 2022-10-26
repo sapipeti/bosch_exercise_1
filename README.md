@@ -196,7 +196,7 @@ Creates a plot comparing the weather in the following cities:
 - Wien
 
 The plot shows the temperature in Celsius and Fahrenheit also.
-Upon request a report.png gets downloaded showing the result of the plot.
+Upon request png picture gets downloaded showing the result of the plot.
 
 **HTTP endpoint:**
 
