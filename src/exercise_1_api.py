@@ -12,7 +12,7 @@ def get_weather(lat, lon):
     return func.get_weather_data(lat, lon)
 
 
-@app.get("/weather/report/")
+@app.get("/weather/report/city/")
 def get_report_city(country_code, city):
     city_lat_lon = func.get_city_lat_lon({country_code: city})
     return get_report_lat_lon(city_lat_lon[0].lat, city_lat_lon[0].lon)
@@ -48,7 +48,8 @@ def get_mood(lat, lon):
 @app.get("/weather/plot/")
 def get_plot():
     func.get_plot()
-    return FileResponse(path="report.png", filename="report"+time.strftime("%Y%m%d-%H%M%S")+".png", media_type='text/png')
+    act_time = time.strftime("%Y%m%d-%H%M%S")
+    return FileResponse(path="../pictures/report"+act_time+".png", filename="report"+act_time+".png", media_type='text/png')
 
 
 @app.get('/city_lat_lon/')

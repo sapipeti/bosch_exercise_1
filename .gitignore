@@ -1,3 +1,3 @@
-exercise_1_constants.py
+constants/exercise_1_constants.py
 *.pyc
 .coverage

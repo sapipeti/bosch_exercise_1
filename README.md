@@ -70,6 +70,44 @@ Gets complete weather info from OpenWeather based on the input latitude and long
 }
 ```
 
+### Getting a report of a city:
+
+Gets a report of a city which includes:
+ - Name of the city
+ - Hours till sunset or sunrise (whichever is closer)
+ - Temperature in Celsius and Fahrenheit
+ - Predicted mood of the people based on cloudiness and temperature
+ 
+You have to call the endpoint with country code and city parameters
+
+*More detail about country codes: https://en.wikipedia.org/wiki/Country_code*
+
+**HTTP endpoint:**
+
+```
+	http://127.0.0.1:8000/weather/report/city/?country_code={country_code}&city={city}
+```
+
+**Example request:**
+
+```
+    curl http://127.0.0.1:8000/weather/report/city/?country_code=HU&city=Budapest
+```
+
+**Example response:**
+```json
+{
+    "City": "Budapest",
+    "Hours till": "We are closer to sunset(00:43)",
+    "Temperature":
+    {
+        "°C": 16.66,
+        "°F": 61.988
+    },
+    "Mood": "Annoyed"
+}
+```
+
 ### Getting a report of a location:
 
 Gets a report of a location which includes:
@@ -78,25 +116,18 @@ Gets a report of a location which includes:
  - Temperature in Celsius and Fahrenheit
  - Predicted mood of the people based on cloudiness and temperature
  
-You can call the endpoint in two ways:
-1. With country code and city parameters
-2. With latitude code and longitude parameters
+You have to call the endpoint with latitude code and longitude parameters
+
 
 *More detail about country codes: https://en.wikipedia.org/wiki/Country_code*
 
 **HTTP endpoint:**
 
 ```
-	http://127.0.0.1:8000/weather/report/?country_code={country_code}&city={city}
-```
-```
     http://127.0.0.1:8000/weather/report/?lat={lat}&lon={lon}
 ```
 **Example request:**
 
-```
-    curl http://127.0.0.1:8000/weather/report/?country_code=HU&city=Budapest
-```
 ```
     curl http://127.0.0.1:8000/weather/report/?lon=19.040&lat=47.49
 ```
@@ -211,7 +242,7 @@ Upon request png picture gets downloaded showing the result of the plot.
 ```
 
 **Example plot:**
-![](report.png)
+![](pictures/report.png)
 
 ### Getting the latitude and longitude of 4 cities:
 

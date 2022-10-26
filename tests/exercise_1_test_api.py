@@ -1,13 +1,11 @@
 import json
-import exercise_1_api
+from src import exercise_1_api, exercise_1_func
 from unittest.mock import patch
 import unittest
 
-import exercise_1_func
-
 
 def get_mock_response():
-    with open('mock_weather.json', 'r') as f:
+    with open('../data/mock_weather.json', 'r') as f:
         return json.loads(f.read())
 
 
@@ -44,7 +42,7 @@ class MyTestCase(unittest.TestCase):
 
     @patch('exercise_1_func.make_api_call')
     def test_get_cities(self, mock_get_api_call):
-        with open('mock_cities.json', 'r', encoding="utf8") as f:
+        with open('../data/mock_cities.json', 'r', encoding="utf8") as f:
             mock_get_api_call.side_effect = json.loads(f.read())
 
         expected = [exercise_1_func.City("Warsaw", "52.2319581", "21.0067249"),

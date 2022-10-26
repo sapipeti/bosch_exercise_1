@@ -1,6 +1,6 @@
 import time
 import requests
-import exercise_1_constants as con
+from constants import exercise_1_constants as con
 import matplotlib.pyplot as plt
 
 api_key = con.API_KEY_OPENWEATHER
@@ -119,4 +119,4 @@ def get_plot():
     plt.subplot(122)
     plt.bar(list(city_temp_f.keys()), list(city_temp_f.values()))
     plt.ylabel('Temperature (°F)')
-    plt.savefig("report"+time.strftime("%Y%m%d-%H%M%S")+".png")
+    plt.savefig("../pictures/report"+time.strftime("%Y%m%d-%H%M%S")+".png")
