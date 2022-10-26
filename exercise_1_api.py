@@ -1,6 +1,3 @@
-import json
-
-import requests
 from fastapi import FastAPI
 import exercise_1_func as func
 from starlette.responses import FileResponse
