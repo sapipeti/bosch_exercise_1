@@ -11,7 +11,13 @@ def get_weather(lat, lon):
 
 
 @app.get("/weather/report/")
-def get_report(lat, lon):
+def get_report_city(country_code, city):
+    city_lat_lon = func.get_city_lat_lon({country_code: city})
+    return get_report_lat_lon(city_lat_lon[0].lat, city_lat_lon[0].lon)
+
+
+@app.get("/weather/report/")
+def get_report_lat_lon(lat, lon):
     response_json = func.get_weather_data(lat, lon)
     report = {"City": response_json["name"], "Hours till": func.hours_till(response_json),
               "Temperature": {"°C": response_json["main"]["temp"],
@@ -43,7 +49,7 @@ def get_plot():
     return FileResponse(path="report.png", filename="report.png", media_type='text/png')
 
 
-@app.get('/city_coordinates/')
+@app.get('/city_lat_lon/')
 def get_cities():
     locations = {"PL": "Warsaw", "HU": "Budapest", "CZ": "Prague", "AT": "Wien"}
-    return func.get_city_coordinates(locations)
+    return func.get_city_lat_lon(locations)

@@ -71,7 +71,7 @@ class City:
         return vars(self) == vars(other)
 
 
-def get_city_coordinates(locations):
+def get_city_lat_lon(locations):
     city_coordinates = []
     url = "http://api.openweathermap.org/geo/1.0/direct"
 
@@ -104,7 +104,7 @@ def convert_city_temp(city_temp_c):
 def get_plot():
     locations = {"PL": "Warsaw", "HU": "Budapest", "CZ": "Prague", "AT": "Wien"}
 
-    city_coordinates = get_city_coordinates(locations)
+    city_coordinates = get_city_lat_lon(locations)
     city_temp_c = get_city_temp_c(city_coordinates)
     city_temp_f = convert_city_temp(city_temp_c)
 

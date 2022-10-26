@@ -6,6 +6,7 @@ import exercise_1_func
 
 
 class MyTestCase(unittest.TestCase):
+    # Unit test of get_city_temp_c
     @patch('exercise_1_func.make_api_call')
     def test_get_city_temp_c(self, mock_get_call):
         cities = [exercise_1_func.City("Warsaw", 52.2319581, 21.0067249),
@@ -16,6 +17,7 @@ class MyTestCase(unittest.TestCase):
         expected = {'Warsaw': 11.91, 'Budapest': 15.63}
         self.assertEqual(expected, exercise_1_func.get_city_temp_c(cities))
 
+    # Testing convert_city_temp & calculate_fahrenheit
     def test_convert_city_temp(self):
         city_temp_c = {'Warsaw': 11.91, 'Budapest': 15.63}
 
